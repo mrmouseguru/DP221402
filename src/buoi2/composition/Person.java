@@ -6,12 +6,12 @@ public class Person {
 
     Person(){
 
-        //headRemote = new Head();
+        headRemote = new Head();
 
     }
 
     public void control() {
-        headRemote = new Head();
+        //headRemote = new Head();
         headRemote.see();
         
     }

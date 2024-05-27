@@ -13,6 +13,10 @@ public class A {
         /*instance variable*/this.bRemote = bRemote/*local variable */;
     }
 
+    void setBRemote(B bRemote){
+        this.bRemote = bRemote;
+    }
+
     public void methodA() {
         bRemote.methodB();
         

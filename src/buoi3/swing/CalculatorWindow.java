@@ -10,19 +10,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class CalculatorWindow extends JFrame implements ActionListener{
+public class CalculatorWindow extends JFrame implements ActionListener {
 
-    //field
+    // field
     private String title;
     private JPanel jPanelRemote;
-    private JLabel jLabelInput1Remote, jLabelInput2Remote, 
-    jLabelOutputRemote;
+    private JLabel jLabelInput1Remote, jLabelInput2Remote,
+            jLabelOutputRemote;
     private JTextField jTextFieldInput1Remote, jTextFieldInput2Remote;
     private JButton addButtonRemote, subButtonRemote, mulButtonRemote, divButtonRemote;
 
-
-    //function , method
-    CalculatorWindow(){
+    // function , method
+    CalculatorWindow() {
         buildPanel();
         add(jPanelRemote);
         title = "Frame Viewer";
@@ -45,24 +44,38 @@ public class CalculatorWindow extends JFrame implements ActionListener{
         jPanelRemote.add(jTextFieldInput2Remote);
         jPanelRemote.add(jLabelOutputRemote);
         addButtonRemote = new JButton("ADD");
-        addButtonRemote.addActionListener(this);//Remote của CalculatorWindow
+        addButtonRemote.addActionListener(this);// Remote của CalculatorWindow
         jPanelRemote.add(addButtonRemote);
-        
-        //jPanelRemote.setBackground(Color.BLUE);
-        
+        subButtonRemote = new JButton("SUB");
+        jPanelRemote.add(subButtonRemote);
+        subButtonRemote.addActionListener(this);
+
+        // jPanelRemote.setBackground(Color.BLUE);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
-        double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
-        double result = num1 + num2;
 
-        jLabelOutputRemote.setText("" + result);
+        String command = e.getActionCommand();
+
+        if (command.equals("ADD")) {
+            double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
+            double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
+            double result = num1 + num2;
+
+            jLabelOutputRemote.setText("" + result);
+
+        }else if(command.equals("SUB")){
+            double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
+            double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
+            double result = num1 - num2;
+
+            jLabelOutputRemote.setText("" + result);
+
+
+        }
+
     }
-
-
-
-
 
 }

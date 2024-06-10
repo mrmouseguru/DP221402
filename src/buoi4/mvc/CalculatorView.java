@@ -1,4 +1,4 @@
-package buoi4.ecb;
+package buoi4.mvc;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class CalculatorBoundary extends JFrame {
+import buoi4.mvc.observer.Subcriber;
+
+public class CalculatorView extends JFrame implements Subcriber {
 
     // field
     private String title;
@@ -19,7 +21,7 @@ public class CalculatorBoundary extends JFrame {
             jLabelOutputRemote;
     private JTextField jTextFieldInput1Remote, jTextFieldInput2Remote;
     private JButton addButtonRemote, subButtonRemote, mulButtonRemote, divButtonRemote;
-    //private CalculatorEntity calculatorModelRemote;
+    private CalculatorModel calculatorModelRemote;
     private CalculatorControl calculatorControlRemote = new CalculatorControl();
 
     public CalculatorControl getCalculatorControlRemote() {
@@ -27,7 +29,10 @@ public class CalculatorBoundary extends JFrame {
     }
    
     // function , method
-    CalculatorBoundary() {
+    CalculatorView() {
+        calculatorModelRemote = new CalculatorModel();
+        calculatorModelRemote.subcribe(this);//dang ky subcriber voi publisher
+
         buildPanel();
         add(jPanelRemote);
         title = "Frame Viewer";
@@ -39,12 +44,7 @@ public class CalculatorBoundary extends JFrame {
 
     }
 
-    // public void setCalculatorControlRemote(CalculatorControl calculatorControlRemote) {
-    //     this.calculatorControlRemote = calculatorControlRemote;
-    //     this.addButtonRemote.
-    //     addActionListener(this.calculatorControlRemote);
-    // }
-
+    
     public void buildPanel() {
         jPanelRemote = new JPanel();
         jLabelInput1Remote = new JLabel("input1");
@@ -69,12 +69,10 @@ public class CalculatorBoundary extends JFrame {
     }
 
     class CalculatorControl implements ActionListener {
-        private CalculatorEntity calculatorEntityRemote =null;
+        //private CalculatorModel calculatorEntityRemote =null;
         public CalculatorControl() {
         }
-        public void setCalculatorEntityRemote(CalculatorEntity calculatorEntityRemote) {
-            this.calculatorEntityRemote = calculatorEntityRemote;
-        }
+       
         @Override
         public void actionPerformed(ActionEvent e) {
     
@@ -83,23 +81,20 @@ public class CalculatorBoundary extends JFrame {
             double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
             
             if (command.equals("ADD")) {
-                //message to Model
-                calculatorEntityRemote.add(num1, num2);
-                double result = calculatorEntityRemote.getResult();
-    
-                jLabelOutputRemote.setText("" + result);
+                calculatorModelRemote.add(num1, num2);
     
             }else if(command.equals("SUB")){
-                calculatorEntityRemote.sub(num1, num2);
-                double result = calculatorEntityRemote.getResult();
-    
-                jLabelOutputRemote.setText("" + result);
-    
+                calculatorModelRemote.sub(num1, num2);
     
             }
     
         }
     
+    }
+
+    @Override
+    public void update() {
+        jLabelOutputRemote.setText(""+calculatorModelRemote.getResult());
     }
 
 }

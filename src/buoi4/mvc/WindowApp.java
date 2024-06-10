@@ -1,15 +1,12 @@
-package buoi4.ecb;
+package buoi4.mvc;
 
 public class WindowApp {
     public static void main(String[] args) {
-        CalculatorEntity calculatorEntityRemote = 
-        new CalculatorEntity();
+       
+        CalculatorView calculatorViewRemote = 
+        new CalculatorView();
 
-        CalculatorBoundary calculatorBoundaryRemote = 
-        new CalculatorBoundary();
-
-        calculatorBoundaryRemote.getCalculatorControlRemote()
-        .setCalculatorEntityRemote(calculatorEntityRemote);
+       
 
         // CalculatorControl2 calculatorControlRemote = new 
         // CalculatorControl2(calculatorBoundaryRemote, calculatorEntityRemote);

@@ -29,14 +29,14 @@ public class CalculatorView extends JFrame implements Subcriber {
     private MenuController menuControllerRemote = null;
     private JMenuBar menuBarRemote = null;
 
-   
     // function , method
-    CalculatorView() {
+    public CalculatorView() {
         calculatorModelRemote = new CalculatorModel();
-        calculatorModelRemote.subcribe(this);//dang ky subcriber voi publisher
+        calculatorModelRemote.subcribe(this);// dang ky subcriber voi publisher
         calculatorControlRemote = new CalculatorController();
         menuControllerRemote = new MenuController();
-        buildMenu();;
+        buildMenu();
+        ;
         buildPanel();
         add(jPanelRemote);
         title = "Frame Viewer";
@@ -61,10 +61,8 @@ public class CalculatorView extends JFrame implements Subcriber {
 
         menuBarRemote.add(calMenuRemote);
 
-
-        
     }
-    
+
     public void buildPanel() {
         jPanelRemote = new JPanel();
         jLabelInput1Remote = new JLabel("input1");
@@ -82,39 +80,35 @@ public class CalculatorView extends JFrame implements Subcriber {
         jPanelRemote.add(addButtonRemote);
         subButtonRemote = new JButton("SUB");
         jPanelRemote.add(subButtonRemote);
-        //subButtonRemote.addActionListener(this);
+        // subButtonRemote.addActionListener(this);
 
         // jPanelRemote.setBackground(Color.BLUE);
 
     }
 
     class CalculatorController implements ActionListener {
-        //private CalculatorModel calculatorEntityRemote =null;
-        public CalculatorController() {
-        }
-       
         @Override
         public void actionPerformed(ActionEvent e) {
-    
+
             String command = e.getActionCommand();
             double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
             double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
-            
+
             if (command.equals("ADD")) {
                 calculatorModelRemote.add(num1, num2);
-    
-            }else if(command.equals("SUB")){
+
+            } else if (command.equals("SUB")) {
                 calculatorModelRemote.sub(num1, num2);
-    
+
             }
-    
+
         }
-    
+
     }
 
     @Override
     public void update() {
-        jLabelOutputRemote.setText(""+calculatorModelRemote.getResult());
+        jLabelOutputRemote.setText("" + calculatorModelRemote.getResult());
     }
 
     /**
@@ -127,18 +121,17 @@ public class CalculatorView extends JFrame implements Subcriber {
             String command = e.getActionCommand();
             double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
             double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
-            
+
             if (command.equals("ADD")) {
                 calculatorModelRemote.add(num1, num2);
-    
-            }else if(command.equals("SUB")){
+
+            } else if (command.equals("SUB")) {
                 calculatorModelRemote.sub(num1, num2);
-    
+
             }
-    
+
         }
-    
-        
+
     }
 
 }

@@ -13,6 +13,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import buoi4.mvc.command_processor.AddCommand;
+import buoi4.mvc.command_processor.Command;
+import buoi4.mvc.command_processor.CommandProcessor;
 import buoi4.mvc.observer.Subcriber;
 
 public class CalculatorView extends JFrame implements Subcriber {
@@ -28,6 +31,7 @@ public class CalculatorView extends JFrame implements Subcriber {
     private CalculatorController calculatorControlRemote = null;
     private MenuController menuControllerRemote = null;
     private JMenuBar menuBarRemote = null;
+    private CommandProcessor commandProcessorRemote;
 
     // function , method
     public CalculatorView() {
@@ -35,6 +39,7 @@ public class CalculatorView extends JFrame implements Subcriber {
         calculatorModelRemote.subcribe(this);// dang ky subcriber voi publisher
         calculatorControlRemote = new CalculatorController();
         menuControllerRemote = new MenuController();
+        commandProcessorRemote = CommandProcessor.makeCommandProcessor();
         buildMenu();
         ;
         buildPanel();
@@ -90,13 +95,16 @@ public class CalculatorView extends JFrame implements Subcriber {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            Command commandRemote = null;
             String command = e.getActionCommand();
             double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
             double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
 
             if (command.equals("ADD")) {
-                calculatorModelRemote.add(num1, num2);
-
+                //calculatorModelRemote.add(num1, num2);
+                commandRemote = new AddCommand(calculatorModelRemote, num1, num2);
+                
+                commandProcessorRemote.execute(commandRemote);
             } else if (command.equals("SUB")) {
                 calculatorModelRemote.sub(num1, num2);
 

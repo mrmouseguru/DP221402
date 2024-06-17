@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -24,7 +25,8 @@ public class CalculatorView extends JFrame implements Subcriber {
     private JTextField jTextFieldInput1Remote, jTextFieldInput2Remote;
     private JButton addButtonRemote, subButtonRemote, mulButtonRemote, divButtonRemote;
     private CalculatorModel calculatorModelRemote;
-    private CalculatorControl calculatorControlRemote = null;
+    private CalculatorController calculatorControlRemote = null;
+    private MenuController menuControllerRemote = null;
     private JMenuBar menuBarRemote = null;
 
    
@@ -32,7 +34,8 @@ public class CalculatorView extends JFrame implements Subcriber {
     CalculatorView() {
         calculatorModelRemote = new CalculatorModel();
         calculatorModelRemote.subcribe(this);//dang ky subcriber voi publisher
-        calculatorControlRemote = new CalculatorControl();
+        calculatorControlRemote = new CalculatorController();
+        menuControllerRemote = new MenuController();
         buildMenu();;
         buildPanel();
         add(jPanelRemote);
@@ -49,8 +52,16 @@ public class CalculatorView extends JFrame implements Subcriber {
     public void buildMenu() {
         menuBarRemote = new JMenuBar();
         JMenu calMenuRemote = new JMenu("Calculator");
+        JMenuItem addItemRemote = new JMenuItem("ADD");
+        addItemRemote.addActionListener(menuControllerRemote);
+        JMenuItem subItemRemote = new JMenuItem("SUB");
+        subItemRemote.addActionListener(menuControllerRemote);
+        calMenuRemote.add(addItemRemote);
+        calMenuRemote.add(subItemRemote);
 
         menuBarRemote.add(calMenuRemote);
+
+
         
     }
     
@@ -77,9 +88,9 @@ public class CalculatorView extends JFrame implements Subcriber {
 
     }
 
-    class CalculatorControl implements ActionListener {
+    class CalculatorController implements ActionListener {
         //private CalculatorModel calculatorEntityRemote =null;
-        public CalculatorControl() {
+        public CalculatorController() {
         }
        
         @Override
@@ -104,6 +115,30 @@ public class CalculatorView extends JFrame implements Subcriber {
     @Override
     public void update() {
         jLabelOutputRemote.setText(""+calculatorModelRemote.getResult());
+    }
+
+    /**
+     *  
+     */
+    class MenuController implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            double num1 = Double.parseDouble(jTextFieldInput1Remote.getText());
+            double num2 = Double.parseDouble(jTextFieldInput2Remote.getText());
+            
+            if (command.equals("ADD")) {
+                calculatorModelRemote.add(num1, num2);
+    
+            }else if(command.equals("SUB")){
+                calculatorModelRemote.sub(num1, num2);
+    
+            }
+    
+        }
+    
+        
     }
 
 }

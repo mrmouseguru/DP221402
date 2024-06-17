@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,21 +24,21 @@ public class CalculatorView extends JFrame implements Subcriber {
     private JTextField jTextFieldInput1Remote, jTextFieldInput2Remote;
     private JButton addButtonRemote, subButtonRemote, mulButtonRemote, divButtonRemote;
     private CalculatorModel calculatorModelRemote;
-    private CalculatorControl calculatorControlRemote = new CalculatorControl();
+    private CalculatorControl calculatorControlRemote = null;
+    private JMenuBar menuBarRemote = null;
 
-    public CalculatorControl getCalculatorControlRemote() {
-        return calculatorControlRemote;
-    }
    
     // function , method
     CalculatorView() {
         calculatorModelRemote = new CalculatorModel();
         calculatorModelRemote.subcribe(this);//dang ky subcriber voi publisher
-
+        calculatorControlRemote = new CalculatorControl();
+        buildMenu();;
         buildPanel();
         add(jPanelRemote);
         title = "Frame Viewer";
         setTitle(title);
+        setJMenuBar(menuBarRemote);
         setSize(400, 400);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +46,13 @@ public class CalculatorView extends JFrame implements Subcriber {
 
     }
 
+    public void buildMenu() {
+        menuBarRemote = new JMenuBar();
+        JMenu calMenuRemote = new JMenu("Calculator");
+
+        menuBarRemote.add(calMenuRemote);
+        
+    }
     
     public void buildPanel() {
         jPanelRemote = new JPanel();
